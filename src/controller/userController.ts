@@ -34,7 +34,7 @@ export class UserConroller implements ApiController {
     try {
       createdUser = JSON.parse(request.body as string) as User;
     } catch (err) {
-      response.statusCode = 500;
+      response.statusCode = 400;
       return response.end(`Posted user entity is invalid`);
     }
 
@@ -66,7 +66,7 @@ export class UserConroller implements ApiController {
     try {
       editedUser = JSON.parse(request.body as string) as User;
     } catch (err) {
-      response.statusCode = 500;
+      response.statusCode = 400;
       return response.end(`Edited user entity is invalid`);
     }
     editedUser.id = userId!;
