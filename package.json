@@ -5,6 +5,7 @@
   "scripts": {
     "start:prod": "webpack && node ./dist/bundle.js",
     "start:dev": "nodemon ./src/index.ts",
+    "start:multi": "nodemon ./src/indexMulti.ts",
     "format": "prettier --write \"src/**/*.ts\"",
     "lint": "eslint \"src/**/*.ts\" --fix",
     "test": "jest --silent --forceExit",
