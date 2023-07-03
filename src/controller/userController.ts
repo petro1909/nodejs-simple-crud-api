@@ -30,7 +30,14 @@ export class UserConroller implements ApiController {
   }
 
   async create(request: ApiRequest, response: ApiResponse): Promise<ApiResponse> {
-    const createdUser = request.body as User;
+    let createdUser;
+    try {
+      createdUser = JSON.parse(request.body as string) as User;
+    } catch (err) {
+      response.statusCode = 500;
+      return response.end(`Posted user entity is invalid`);
+    }
+
     if (!validateUser(createdUser)) {
       response.statusCode = 400;
       return response.end(`Posted user entity is invalid`);
@@ -55,7 +62,13 @@ export class UserConroller implements ApiController {
       response.statusCode = 404;
       return response.end(`user with id: ${userId} not found`);
     }
-    const editedUser = request.body as User;
+    let editedUser;
+    try {
+      editedUser = JSON.parse(request.body as string) as User;
+    } catch (err) {
+      response.statusCode = 500;
+      return response.end(`Edited user entity is invalid`);
+    }
     editedUser.id = userId!;
     userRepository.getUsers()[userRepository.getUsers().indexOf(user)] = editedUser;
 
