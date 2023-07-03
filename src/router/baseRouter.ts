@@ -16,14 +16,19 @@ export class ApiRouter {
     }
     const pathArray: Array<string> = url.split('/');
     request.params = { id: pathArray[2] };
-    if (request.method == 'GET') {
-      if (request.params.id) {
-        return await routes['GETONE'](request, response);
+    try {
+      if (request.method == 'GET') {
+        if (request.params.id) {
+          return await routes['GETONE'](request, response);
+        } else {
+          return await routes['GET'](request, response);
+        }
       } else {
-        return await routes['GET'](request, response);
+        return await routes[request.method! as keyof typeof routes](request, response);
       }
-    } else {
-      return await routes[request.method! as keyof typeof routes](request, response);
+    } catch (err) {
+      response.statusCode = 500;
+      return response.end(JSON.stringify({ message: 'server error' }));
     }
   }
 }
