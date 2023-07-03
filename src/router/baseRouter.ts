@@ -1,16 +1,7 @@
 import { ApiRequest } from '../types/apiRequest';
 import { ApiResponse } from '../types/apiResponse';
-import { UserConroller } from '../controller/userController';
-//import { routes } from './userRouter';
-const userConroller = new UserConroller();
+import { routes } from './userRouter';
 
-export const routes = {
-  GET: userConroller.getAll,
-  GETONE: userConroller.getOneById,
-  POST: userConroller.create,
-  PUT: userConroller.edit,
-  DELETE: userConroller.deleteById,
-};
 export class ApiRouter {
   async processRequest(request: ApiRequest, response: ApiResponse): Promise<ApiResponse> {
     if (!request.url) {
