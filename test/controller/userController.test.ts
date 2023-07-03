@@ -55,7 +55,7 @@ describe('test user controller methods', () => {
     test('should return response with status 201 and newly created entity and create one user and add it to users', async () => {
       const mockedApiResponseEnd = jest.spyOn(apiResponse, 'end');
       const validUser: User = { username: 'testname', age: 60, hobbies: [] };
-      apiRequest.body = validUser;
+      apiRequest.body = JSON.stringify(validUser);
 
       const usersLengthBeforePost = users.length;
       const resultApiResponse = await userConroller.create(apiRequest, apiResponse);
@@ -66,8 +66,9 @@ describe('test user controller methods', () => {
 
       const createdUserStr = mockedApiResponseEnd.mock.calls[0]?.[0];
       const createdUser: User = JSON.parse(createdUserStr);
+      delete createdUser.id;
 
-      expect(createdUser).toEqual(validUser);
+      expect(JSON.stringify(createdUser)).toEqual(apiRequest.body);
       mockedApiResponseEnd.mockClear();
     });
 
@@ -90,7 +91,7 @@ describe('test user controller methods', () => {
       const mockedApiResponseEnd = jest.spyOn(apiResponse, 'end');
       const validEditedUser: User = { username: 'newName', age: 20, hobbies: [] };
       apiRequest.params.id = '7522228b-2e45-46d0-8656-50b606a76170';
-      apiRequest.body = validEditedUser;
+      apiRequest.body = JSON.stringify(validEditedUser);
 
       const usersLengthBeforePost = users.length;
       const resultApiResponse = await userConroller.edit(apiRequest, apiResponse);
@@ -101,8 +102,9 @@ describe('test user controller methods', () => {
 
       const editedUserStr = mockedApiResponseEnd.mock.calls[0]?.[0];
       const editedUser: User = JSON.parse(editedUserStr);
+      delete editedUser.id;
 
-      expect(editedUser).toEqual(validEditedUser);
+      expect(JSON.stringify(editedUser)).toEqual(apiRequest.body);
       mockedApiResponseEnd.mockClear();
     });
     test('return response with status code 404 if user with passed id doesn"t exist', async () => {
