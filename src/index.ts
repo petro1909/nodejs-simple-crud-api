@@ -41,8 +41,7 @@ createServer(async (request, response) => {
     data += chunk;
   });
   request.on('end', async () => {
-    //console.log(`worker ${process.pid}`);
-    apiRequest.body = JSON.parse(data);
+    apiRequest.body = data;
     await apiRouter.processRequest(apiRequest, response);
   });
 }).listen(process.env['PORT'], () => {
