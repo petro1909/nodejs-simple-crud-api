@@ -6,13 +6,13 @@ export class ApiRouter {
   async processRequest(request: ApiRequest, response: ApiResponse): Promise<ApiResponse> {
     if (!request.url) {
       response.statusCode = 404;
-      return response.end(JSON.stringify({ message: 'path not found' }));
+      return response.end('path not found');
     }
     const url = request.url.slice(1);
     const userApiRegex = /^(api\/users){1}(\/)?.*/;
     if (!userApiRegex.test(url)) {
       response.statusCode = 404;
-      return response.end(JSON.stringify({ message: 'path not found' }));
+      return response.end('path not found');
     }
     const pathArray: Array<string> = url.split('/');
     request.params = { id: pathArray[2] };
@@ -28,7 +28,7 @@ export class ApiRouter {
       }
     } catch (err) {
       response.statusCode = 500;
-      return response.end(JSON.stringify({ message: 'server error' }));
+      return response.end('server error');
     }
   }
 }
